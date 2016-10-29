@@ -1,1 +1,25 @@
-node_modules/
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+
+# DEV files          #
+######################
+.build/
+.editorconfig
+.vscode
+.Rhistory
+/.idea
+data_scripts/
+
+# NPM generated files #
+######################
+/node_modules/
+npm-debug.log
+
+# APP files          #
+######################
+*.log
+/config/index.js
+/logs/
+dist/
