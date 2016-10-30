@@ -1,6 +1,5 @@
 'use strict';
 
-
 module.exports = function(sequelize, DataTypes) {
   let UserProfiles = sequelize.define('user_profiles', {
     username: {

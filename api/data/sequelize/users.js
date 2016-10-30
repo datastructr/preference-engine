@@ -4,8 +4,18 @@ import bcrypt from 'bcrypt';
 
 module.exports = function(sequelize, DataTypes) {
   var Users = sequelize.define('users', {
-    first_name: DataTypes.STRING,
-    last_name: DataTypes.STRING,
+    first_name: {
+      type: DataTypes.STRING,
+      validate: {
+        len: [1,55]
+      }
+    },
+    last_name: {
+      type: DataTypes.STRING,
+      validate: {
+        len: [1,55]
+      }
+  },
     account_type: DataTypes.STRING,
     email: {
         type: DataTypes.STRING,
@@ -13,6 +23,7 @@ module.exports = function(sequelize, DataTypes) {
           isEmail: true,
           notEmpty: true,
           notNull: true,
+          unique: true,
           len: [1,255]
         }
     },
@@ -20,7 +31,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       validate: {
         notEmpty: true,
-        notNull: true
+        notNull: true,
+        len: [6,55]
       }
     }
   }, {
