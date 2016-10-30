@@ -17,9 +17,12 @@ data_scripts/
 /node_modules/
 npm-debug.log
 
-# APP files          #
+# API files          #
 ######################
 *.log
-/config/index.js
-/logs/
+api/config/index.js
+api/logs/
+
+
+
 dist/
