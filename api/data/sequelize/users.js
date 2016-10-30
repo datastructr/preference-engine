@@ -2,7 +2,7 @@
 
 import bcrypt from 'bcrypt';
 
-module.exports = function(sequelize, DataTypes) {
+export default (sequelize, DataTypes) => {
   var Users = sequelize.define('users', {
     first_name: {
       type: DataTypes.STRING,
@@ -15,17 +15,17 @@ module.exports = function(sequelize, DataTypes) {
       validate: {
         len: [1,55]
       }
-  },
+    },
     account_type: DataTypes.STRING,
     email: {
-        type: DataTypes.STRING,
-        validate: {
-          isEmail: true,
-          notEmpty: true,
-          notNull: true,
-          unique: true,
-          len: [1,255]
-        }
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: true,
+        notEmpty: true,
+        notNull: true,
+        unique: true,
+        len: [1,255]
+      }
     },
     password: {
       type: DataTypes.STRING,
@@ -48,17 +48,19 @@ module.exports = function(sequelize, DataTypes) {
     },
     instanceMethods: {
       authenticate: (value) => {
-        if (bcrypt.compareSync(value, this.password))
+        if (bcrypt.compareSync(value, this.password)) {
           return this;
-        else
+        }
+        else {
           return false;
+        }
       }
     }
   });
 
   let generateHash = (user, options, callback) => {
     bcrypt.hash(user.get('password'), 10, (err, hash) => {
-      if (err) return callback(err);
+      if (err) { return callback(err); };
       user.set('password', hash);
       return callback(null, options);
     });
@@ -66,19 +68,23 @@ module.exports = function(sequelize, DataTypes) {
 
   Users.beforeCreate((user, options, callback) => {
     user.email = user.email.toLowerCase();
-    if (user.password)
+    if (user.password) {
       generateHash(user, options, callback);
-    else
+    }
+    else {
       return callback(null, options);
-  })
+    }
+  });
 
   Users.beforeUpdate((user, options, callback) => {
     user.email = user.email.toLowerCase();
-    if (user.password)
+    if (user.password) {
       generateHash(user, options, callback);
-    else
+    }
+    else {
       return callback(null, options);
-  })
+    }
+  });
 
   return Users;
 };

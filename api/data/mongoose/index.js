@@ -4,9 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import mongoose from 'mongoose';
 
-// Use node-config
 import {docstore} from '../../config';
-
 let dsconfig = docstore[process.env.NODE_ENV || "development"];
 
 mongoose.connection.on('error', (error) => {
@@ -14,7 +12,7 @@ mongoose.connection.on('error', (error) => {
 });
 
 mongoose.connection.on('open', () => {
-  console.log(`Connected to ${config.mongoose.uri}`);
+  console.log(`Connected to ${dsconfig.url}`);
 });
 
 mongoose.connect(dsconfig.url, dsconfig.options);
@@ -27,7 +25,7 @@ fs
     return (filename.indexOf('.') !== 0) && (filename !== "index.js");
   })
   .forEach((filename) => {
-    var filepath = path.join(__dirname, filename)
+    var filepath = path.join(__dirname, filename);
     var imported = (require(filepath).default) ?
       require(filepath).default :
       require(filepath);
