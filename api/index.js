@@ -4,14 +4,19 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import path from 'path'
 
-import config, { database } from '../config';
-import logger, {stream} from './network/logger';
+import config, { database } from './config';
+import logger, {stream} from './config/logger';
+import passport from './config/passport';
 
-import rdb from './sequelize';
+import rdb from './data/sequelize';
 
 const app = express();
 
-/** logging setup */
+// auth
+app.use(passport.initialize());
+app.use(passport.session());
+
+// logging
 app.use(morgan("combined",{ "stream": stream }));
 
 // request 
